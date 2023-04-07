@@ -1,3 +1,45 @@
+body {
+    margin: 0;
+}
+
+.header {
+    background-color: #FF9B9B;
+    display:flex;
+    justify-content: center;
+    color:white;
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+.gettile {
+    padding: 20px;
+}
+
+.tileholder {
+    display:flex;
+    gap:10px;
+}
+
+.tile {
+    padding:8px;
+    max-width: 400px;
+    height: 700px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+    text-align: center;
+    justify-content:space-between;
+    background-color: aquamarine;
+
+}
+
 .tile > img {
     max-width: 400px;
+    max-height: 600px;
+    border-radius: 5px;
+}
+
+.tile > h3 {
+    justify-self: end;
+    
 }

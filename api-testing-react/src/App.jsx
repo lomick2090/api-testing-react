@@ -1,13 +1,17 @@
 import React from 'react';
 import Tile from './components/Tile'
+import Header from './components/Header'
 
 export default function App() {
     const [tileData, setTileData] = React.useState([])
-    let tileElements = []
+    const [tileElements, setTileElements] = React.useState([])
+
+    console.log('rendered')
     
     async function getImgURL() {
         try {
             const response = await fetch('https://source.unsplash.com/random')
+
             return response.url
         } catch(error) {
             console.error(error)
@@ -28,29 +32,37 @@ export default function App() {
     }
 
     async function createTile() {
-        let imgURL = await getImgURL();
-        let quote = await getQuote();
-        setTileData(prevTileData => {
-            let tileDataCopy = [...prevTileData];
-            tileDataCopy[prevTileData.length] = {
-                imgURL,
-                quote,
-                id: prevTileData.length
-            }
-            return tileDataCopy
-        })
-
-        for (let i =0; i< tileData.length; i++) {
-            tileElements.push(<Tile imgURL={imgURL} quote={quote} />)
+        try {
+            let imgURL = await getImgURL();
+            let quote = await getQuote();
+            setTileData(prevTileData => {
+                let tileDataCopy = [...prevTileData];
+                tileDataCopy.push({
+                    imgURL,
+                    quote,
+                    id: prevTileData.length
+                })
+                return tileDataCopy
+            })
+            setTileElements(() => {
+                let tileElementsTemp = [];
+                tileElementsTemp = tileData.map(tile => {
+                    return <Tile imgURL={tile.imgURL} quote={tile.quote} key={tile.id}/>
+                })
+                return tileElementsTemp
+            })
+            
+        } catch(error) {
+            console.error(error)
         }
-        console.log(tileElements)
+        
     }
-
-
+    
     return (
         <div>
-            <button onClick={createTile}>Get Tile</button>
-            {tileElements}
+            <Header />
+            <button onClick={createTile} className="gettile">Get Tile</button>
+            <div className="tileholder">{tileElements}</div>
         </div>
     )
 }
